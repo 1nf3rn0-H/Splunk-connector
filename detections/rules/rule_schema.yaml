@@ -1,0 +1,66 @@
+type: object
+required:
+  - name
+  - search
+  - cron
+  - earliest_time
+  - latest_time
+  - alert_type
+
+properties:
+  name:
+    type: string
+    description: Unique name for the saved search
+  description:
+    type: string
+  search:
+    type: string
+    description: SPL query
+  cron:
+    type: string
+    description: Cron schedule
+  earliest_time:
+    type: string
+  latest_time:
+    type: string
+  disabled:
+    type: boolean
+  is_alert:
+    type: boolean
+  alert_type:
+    type: string
+    enum: [always, number_of_events, custom]
+  alert.severity:
+    type: integer
+    minimum: 1
+    maximum: 6
+  alert.track:
+    type: boolean
+
+  # Action Parameters
+  action.email:
+    type: boolean
+  action.email.to:
+    type: string
+  action.email.subject:
+    type: string
+  action.email.message:
+    type: string
+  action.email.format:
+    type: string
+    enum: [table, raw, csv, pdf]
+
+  # Metadata Extensions
+  tags:
+    type: array
+    items:
+      type: string
+  mitre_attack:
+    type: array
+    items:
+      type: string
+  owner:
+    type: string
+  severity:
+    type: string
+    enum: [informational, low, medium, high, critical]
