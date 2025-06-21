@@ -1,0 +1,74 @@
+name:
+  type: string
+  required: true
+
+description:
+  type: string
+
+search:
+  type: string
+  required: true
+
+cron:
+  type: string
+  required: true
+
+earliest_time:
+  type: string
+  required: true
+
+latest_time:
+  type: string
+  required: true
+
+disabled:
+  type: boolean
+
+is_alert:
+  type: boolean
+
+alert_type:
+  type: string
+  allowed: ["always", "number_of_events", "custom"]
+  required: true
+
+alert.severity:
+  type: integer
+  min: 1
+  max: 6
+
+alert.track:
+  type: boolean
+
+action.email:
+  type: boolean
+
+action.email.to:
+  type: string
+
+action.email.subject:
+  type: string
+
+action.email.message:
+  type: string
+
+action.email.format:
+  type: string
+  allowed: ["table", "raw", "csv", "pdf"]
+
+tags:
+  type: list
+  schema:
+    type: string
+
+mitre_attack:
+  type: list
+  schema:
+    type: string
+
+owner:
+  type: string
+
+severity:
+  type: string
+  allowed: ["informational", "low", "medium", "high", "critical"]
