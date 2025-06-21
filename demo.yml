@@ -1,0 +1,14 @@
+title: Windows Defender Threat Detection Disabled
+logsource:
+    # Windows Defender
+    product: windows
+    category: process_creation
+detection:
+    selection:
+        # The detection itself
+        EventID:
+            - 5001
+            - 5010
+            - 5012
+            - 5101
+    condition: selection
