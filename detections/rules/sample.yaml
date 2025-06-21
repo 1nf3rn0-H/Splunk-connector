@@ -1,6 +1,6 @@
 name: Suspicious PowerShell Execution
 description: Detects powershell execution in EventCode 4688
-search: index=windows sourcetype=WinEventLog:Security EventCode=4688 CommandLine=*powershell* | table EventCode CommandLine
+search: index=windows ( jkahso - / sourcetype=WinEventLog:Security EventCode=4688 CommandLine=*powershell* | table EventCode CommandLine
 cron: "*/5 * * * *"
 earliest_time: -5m
 latest_time: now
