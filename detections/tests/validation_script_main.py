@@ -7,6 +7,8 @@ from cerberus import Validator
 from auth import get_session_key
 from spl_validator import validate_spl
 from spl_linter import lint_spl
+from volume_testing import test_alert_volume
+
 
 # === CONFIG LOAD ===
 BASE_DIR = os.getcwd()
@@ -26,18 +28,36 @@ v = Validator(SCHEMA)
 def validate_detection_rule(rule, config, headers):
     spl = rule.get("search", "")
     all_passed = True
-
+    
+    # === SPL Validation ===
     print(f"\n[>] Validating SPL: {spl[:60]}...")
-
     if not validate_spl(spl, config, headers):
         all_passed = False
 
+    # === Lint Validation ===
     lint_issues = lint_spl(spl)
     if lint_issues:
         all_passed = False
         print("[!] SPL Linting Issues:")
         for issue in lint_issues:
             print(f"  - {issue}")
+
+    # === ALERT VOLUME TESTING ===
+    print("[>>] Running alert volume test over past 14 days...")
+    volume = test_alert_volume(spl, config, headers)
+    if volume is None:
+        print("[!] Alert volume test could not complete")
+        all_passed = False
+    else:
+        print(f"[i] Estimated alerts in last 14 days: {volume}")
+        if volume == 0:
+            print("[!] No alerts triggered — check logic/data")
+            all_passed = False
+        elif volume > 10:
+            all_passed = False
+            print("[!!] High volume — consider filtering or thresholds")
+        else:
+            print("[+] Alert volume looks reasonable")
 
     return all_passed
 
