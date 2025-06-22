@@ -1,0 +1,45 @@
+name: Validate Detection Rules (On-Prem)
+
+on:
+  push:
+    paths:
+      - 'detections/rules/**/*.yaml'
+  pull_request:
+    paths:
+      - 'detections/rules/**/*.yaml'
+
+jobs:
+  validate:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+
+    - name: Set Up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install Dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install --upgrade pip
+        pip install cerberus croniter pyyaml requests matplotlib json urllib3 splunklib
+
+    - name: Inject config.json for Splunk Access
+      run: |
+        cat <<EOF > config.json
+        {
+          "host": "https://localhost:8089",
+          "username": "${{ secrets.SPLUNK_USERNAME }}",
+          "password": "${{ secrets.SPLUNK_PASSWORD }}",
+          "app": "search"
+        }
+        EOF
+
+    - name: Run Detection Rule Validation
+      run: |
+        source venv/bin/activate
+        python detections/tests/validation_main.py
