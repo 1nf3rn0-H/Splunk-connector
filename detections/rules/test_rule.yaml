@@ -1,0 +1,11 @@
+name: Suspicious PowerShell
+cron: "*/5 * * * *"
+search: index=windows sourcetype=WinEventLog:Security EventCode=4688 CommandLine=*powershell*
+description: Detects PowerShell executions from Windows Event Logs.
+disabled: false
+alert_type: always
+earliest_time: -5m
+latest_time: now
+is_alert: true
+alert.severity: 4
+alert.track: true
