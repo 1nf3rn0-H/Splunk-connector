@@ -7,7 +7,7 @@ on:
 
 jobs:
   validate:
-    name: Run validation_main.py
+    name: Run detections/tests/validation_script_main.py
     runs-on: self-hosted
 
     steps:
