@@ -14,10 +14,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+    - name: Use system Python
+      run: |
+        python --version
+        python detections/tests/validation_main.py
 
     - name: Create virtual environment and install dependencies
       run: |
@@ -44,3 +44,4 @@ jobs:
         source venv/bin/activate
         echo "🚦 Starting validation..."
         python detections/tests/validation_script_main.py
+        
