@@ -1,0 +1,22 @@
+name: Suspicious PowerShell Execution
+description: Detects powershell execution in EventCode 4688
+search: index=* sourcetype=* EventCode=4688 | table EventCode CommandLine
+cron: "*/5 * * * *"
+earliest_time: -5m
+latest_time: now
+disabled: false
+is_alert: true
+alert_type: always
+alert.severity: 4
+alert.track: true
+
+action.email: true
+action.email.to: soc@example.com
+action.email.subject: "[ALERT] Suspicious PowerShell"
+action.email.message: "PowerShell detected on $host$"
+action.email.format: table
+
+tags: [windows, execution, powershell]
+mitre_attack: [T1059.001]
+owner: detection-team
+severity: high
