@@ -4,7 +4,7 @@ def lint_spl(spl):
     issues = []
     if "index=" not in spl:
         issues.append("Missing 'index=' clause.")
-    if re.search(r"index\\s*=\\s*\\*", spl):
+    if re.search(r"index=\*", spl):
         issues.append("Avoid 'index=*' - use specific indexes.")
     if re.search(r"sourcetype\\s*=\\s*\\*", spl):
         issues.append("Avoid 'sourcetype=*' - use specific sourcetypes.")
